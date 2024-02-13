@@ -38,7 +38,7 @@ namespace notepad
         {
             Close();
         }
-
+        //save button
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
            if (textBox1.Text != "")
