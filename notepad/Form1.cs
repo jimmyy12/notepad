@@ -12,6 +12,7 @@ namespace notepad
 {
     public partial class Form1 : Form
     {
+        string Title = "";
         public Form1()
         {
             InitializeComponent();
@@ -19,10 +20,10 @@ namespace notepad
         // New button
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           if (textBox1.Text != "")
+            if (textBox1.Text != "")
             {
-               DialogResult result = MessageBox.Show("Doyou want to save changes to untitled?", "Notepad", MessageBoxButtons.YesNoCancel);
-               if (result == DialogResult.Yes)
+                DialogResult result = MessageBox.Show("Doyou want to save changes to untitled?", "Notepad", MessageBoxButtons.YesNoCancel);
+                if (result == DialogResult.Yes)
                 {
                     saveToolStripMenuItem.PerformClick();
                     textBox1.Text = "";
@@ -47,9 +48,16 @@ namespace notepad
             save.RestoreDirectory = true;
             if (textBox1.Text != "")
             {
-                if (save.ShowDialog() == DialogResult.OK)
+                if (Title == "")
                 {
-                    System.IO.File.WriteAllText(save.FileName,textBox1.Text);
+                    if (save.ShowDialog() == DialogResult.OK)
+                    {
+                        System.IO.File.WriteAllText(save.FileName, textBox1.Text);
+                    }
+                }
+                else
+                {
+                    System.IO.File.WriteAllText(Title, textBox1.Text);
                 }
             };
         }
@@ -75,7 +83,9 @@ namespace notepad
             {
                 if (OpenFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                        textBox1.Text = System.IO.File.ReadAllText(OpenFileDialog1.FileName);
+                    textBox1.Text = System.IO.File.ReadAllText(OpenFileDialog1.FileName);
+                    Title = OpenFileDialog1.FileName;
+                    this.Text = Title.Split('\\').Last<string>(); ;
                     
                 }
             };
@@ -94,6 +104,11 @@ namespace notepad
                     System.IO.File.WriteAllText(save.FileName, textBox1.Text);
                 }
             };
+        }
+
+        private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
